@@ -2,22 +2,10 @@ import React, { useState } from "react";
 import { Card, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import PlaceDetails from "../PlaceDetails/PlaceDetails";
 import useStyles from "./styles";
-const List = () => {
+const List = ({ places }) => {
   const classes = useStyles();
   const [type, setType] = useState('restaurants');
   const [rating, setRating] = useState('');
-  const places = [
-    {name: 'Carribean Dream'},
-    {name: 'Garden Island'},
-    {name: 'Chocolate Factory'},
-    {name: 'Petrichor'},
-    {name: 'Ye Olde Steak House'},
-    {name: 'Candy Mountain'},
-    {name: 'The City of New Pork'},
-    {name: 'GoGo Gadgets'},
-    {name: 'the Order'},
-
-  ]
   return (
     <div className={classes.container}>
       <Typography variant="h4">
@@ -42,6 +30,7 @@ const List = () => {
       </FormControl>
       <Grid container spacing={3} className={classes.list}>
         {places?.map((place, i) => (
+          place.ad_size ? '':
           <Grid item key={i} xs={12}>
             <PlaceDetails place={place} />
           </Grid>
