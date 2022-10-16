@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
   [theme.breakpoints.up("sm")]: {
     display: "block",
   },
-    "&:hover": { color: "lightblue" },
+    "&:hover": { color: "lightblue", cursor: "pointer", },
   },
   search: {
     position: "relative",
@@ -20,13 +20,15 @@ export default makeStyles((theme) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
+
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("xs")]: {
       marginLeft: theme.spacing(3),
       width: "auto",
+      height: "35px",
     },
   },
   searchIcon: {
