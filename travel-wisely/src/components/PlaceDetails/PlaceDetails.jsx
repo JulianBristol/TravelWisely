@@ -1,14 +1,16 @@
 import React from "react";
 import {
   Box,
+  Button,
   Card,
+  CardActions,
   CardContent,
   CardMedia,
   Chip,
   Typography,
 } from "@material-ui/core";
-import { LocationOnIcon } from "@material-ui/icons/LocationOn";
-import { PhoneIcon } from "@material-ui/icons/Phone";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import PhoneIcon from "@material-ui/icons/Phone";
 import useStyles from "./styles";
 const PlaceDetails = ({ place }) => {
   const classes = useStyles();
@@ -39,15 +41,60 @@ const PlaceDetails = ({ place }) => {
             {place.ranking}
           </Typography>
         </Box>
-        {place?.awards?.map((award)=> (
-          <Box my={1} display="flex" justifyContent="space-between" alignItems="center">
-            <img src={award.images.small} alt={award.display_name}/>
-            <Typography variant="subtitle2" color="textSecondary">{award.display_name}</Typography>
+        {place?.awards?.map((award) => (
+          <Box
+            my={1}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <img src={award.images.small} alt={award.display_name} />
+            <Typography variant="subtitle2" color="textSecondary">
+              {award.display_name}
+            </Typography>
           </Box>
         ))}
         {place?.cuisine?.map(({ name }) => (
-          <Chip key={name} size="small" label={name} className={classes.chip}/>
+          <Chip key={name} size="small" label={name} className={classes.chip} />
         ))}
+        {place?.address && (
+          <Typography
+            gutterBottom
+            variant="subtitle2"
+            color="textSecondary"
+            className={classes.subtitle}
+          >
+            <LocationOnIcon /> {place.address}
+          </Typography>
+        )}
+        {place?.phone && (
+          <Typography
+            gutterBottom
+            variant="subtitle2"
+            color="textSecondary"
+            className={classes.spacing}
+          >
+            <PhoneIcon /> {place.phone}
+          </Typography>
+        )}
+        <CardActions>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => window.open(place.web_url, "_blank")}
+            variant="contained"
+          >
+            Trip Advisor
+          </Button>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => window.open(place.website, "_blank")}
+            variant="contained"
+          >
+            Website
+          </Button>
+        </CardActions>
       </CardContent>
     </Card>
   );
