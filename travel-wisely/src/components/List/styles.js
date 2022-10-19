@@ -9,7 +9,8 @@ export default makeStyles((theme) => ({
   },
   loading: {
     height: "600px",
-    diplay: "flex",
+    width: "100%",
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -23,6 +24,6 @@ export default makeStyles((theme) => ({
     height: "70vh",
     overflow: "auto",
     backgroundColor: "#eee",
-    marginTop: "20px"
+    marginTop: "20px",
   },
 }));

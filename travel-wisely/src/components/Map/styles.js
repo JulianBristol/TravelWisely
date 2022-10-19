@@ -6,11 +6,12 @@ export default makeStyles(() => ({
     display: "flex",
     width: "100px",
     flexDirection: "column",
-    justifyContent: "center", 
+    justifyContent: "center",
   },
   mapContainer: {
     height: "85vh",
     width: "100%",
+    position: "relative",
   },
   markerContainer: {
     position: "absolute",
@@ -20,5 +21,19 @@ export default makeStyles(() => ({
   },
   pointer: {
     cursor: "pointer",
-  }
+  },
+  mapButtonContainer: {
+    position: "absolute",
+    bottom: "25px",
+    left: "25px",
+    zIndex: 1,
+  },
+  mapButton: {
+    backgroundColor: "white",
+    color: "#555555",
+    "&:hover": {
+      color: "#000000",
+      backgroundColor: "#e2e1e0",
+    },
+  },
 }));

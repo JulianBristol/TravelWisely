@@ -32,18 +32,13 @@ const List = ({ places, childClicked, isLoading, type, setType, rating, setRatin
       <Typography variant="h4">
         Restaurants, Hotels, & Attractions around you
       </Typography>
-      {isLoading ? (
-        <div className={classes.loading}>
-          <CircularProgress size="5rem" />
-        </div>
-      ) : (
-        <>
+      
           <FormControl className={classes.formControl}>
             <InputLabel>Type</InputLabel>
             <Select value={type} onChange={(e) => setType(e.target.value)}>
               <MenuItem value="restaurants">Restaurants</MenuItem>
               <MenuItem value="hotels">Hotels</MenuItem>
-              <MenuItem value="Attractions">Attractions</MenuItem>
+              <MenuItem value="attractions">Places</MenuItem>
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -56,6 +51,12 @@ const List = ({ places, childClicked, isLoading, type, setType, rating, setRatin
             </Select>
           </FormControl>
           <Grid container spacing={3} className={classes.list}>
+          {isLoading ? (
+        <div className={classes.loading}>
+          <CircularProgress size="5rem" />
+        </div>
+      ) : (
+        <>
             {places?.map((place, i) =>
             /* prevent ads from appearing on list */
               place.ad_size ? (
@@ -69,10 +70,10 @@ const List = ({ places, childClicked, isLoading, type, setType, rating, setRatin
                   />
                 </Grid>
               )
-            )}
-          </Grid>
-        </>
+            )}</>
       )}
+          </Grid>
+        
     </div>
   );
 };
