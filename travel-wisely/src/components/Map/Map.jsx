@@ -13,20 +13,14 @@ const Map = ({
   coordinates,
   places,
   setChildClicked,
-  weatherData,
 }) => {
   const classes = useStyles();
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [toggleMap, setToggleMap] = useState(false);
-
-/*   var result = [];
-  for (var i in weatherData) {
-    result.push([i, weatherData[i]])
-  }
-  console.log(result[1][1].condition.icon); */
-
+  
   return (
     <div className={classes.mapContainer}>
+      {/* Toggle Google Maps style Button */}
       <div className={classes.mapButtonContainer}>
           <Button
             className={classes.mapButton}
@@ -36,9 +30,10 @@ const Map = ({
             Toggle Map Styles
           </Button>
         </div>
+        {/* Display google map section */}
       <GoogleMapReact
         bootstrapURLKeys={{
-          key: "" /* process.env.REACT_APP_GOOGLE_MAPS_API_KEY */,
+          key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         }}
         defaultCenter={coordinates}
         center={coordinates}
@@ -49,17 +44,16 @@ const Map = ({
           zoomControl: true,
           styles: toggleMap ? mapStyles: "",
         }}
+        /* Update code to display new coords */
         onChange={(e) => {
           setCoordinates({ lat: e.center.lat, lng: e.center.lng });
           setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         }}
+        /* Get information about the selected element and connect it to the element in the list */
         onChildClick={(child) => setChildClicked(child)}
       >
+        {/* Apply each location to the map */}
         {places?.map((place, i) =>
-          /* prevent ads from appearing on map */
-          place.ad_size ? (
-            ""
-          ) : (
             <div
               className={classes.markerContainer}
               lat={Number(place.latitude)}
@@ -90,27 +84,7 @@ const Map = ({
                 </Paper>
               )}
             </div>
-          )
         )}
-
-            {console.log(coordinates)}
-            {console.log(weatherData.current)}
-            <div lat={coordinates.lat} lng={coordinates.lng}>
-            {/* <img
-              src={weatherData.current.condition.icon}
-              alt="weatherData.current.condition.text"
-            /> */}
-          </div>
-            {/* {console.log(Array.isArray(weatherData.current))} */}
-        {weatherData?.list?.map((data, i) => (
-          <div key={i} lat={data.location.lat} lng={data.location.lng}>
-            {console.log(data.current)}
-            {/* <img
-              src={}
-              alt="data.current.condition.text"
-            /> */}
-          </div>
-        ))}
       </GoogleMapReact>
     </div>
   );

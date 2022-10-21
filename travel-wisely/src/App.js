@@ -4,6 +4,7 @@ import List from "./components/List/List";
 import Map from "./components/Map/Map";
 import { CssBaseline, Grid } from "@material-ui/core";
 import { getPlacesData, getWeatherData } from "./Api";
+import Weather from "./components/Weather/Weather";
 
 const App = () => {
   const [places, setPlaces] = useState([]);
@@ -37,13 +38,10 @@ const App = () => {
       getWeatherData(coordinates.lat, coordinates.lng).then((data) =>
         setWeatherData(data)
       );
-console.log(isLoading)
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
         setFilteredPlaces([]);
         setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
-        console.log(isLoading)
         setIsLoading(false);
-        console.log(isLoading)
       });
     }
   }, [type, bounds]);
@@ -73,6 +71,7 @@ console.log(isLoading)
             setChildClicked={setChildClicked}
             weatherData={weatherData}
           />
+          <Weather />
         </Grid>
       </Grid>
     </>

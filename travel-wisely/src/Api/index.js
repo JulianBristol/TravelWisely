@@ -14,7 +14,7 @@ export const getPlacesData = async (type, sw, ne) => {
           tr_longitude: ne.lng,
         },
         headers: {
-          "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_API_KEY,
+          "X-RapidAPI-Key": "" /* process.env.REACT_APP_RAPIDAPI_API_KEY */,
           "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
         },
       }
@@ -29,10 +29,11 @@ export const getPlacesData = async (type, sw, ne) => {
 export const getWeatherData = async (lat, lng) => {
   try {
     const { data } = await axios.get(
-      "https://weatherapi-com.p.rapidapi.com/current.json",
+      "https://weatherapi-com.p.rapidapi.com/forecast.json",
       {
         params: {
           q: `${lat}, ${lng}` ,
+          days: "3"
         },
         headers: {
           "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_API_KEY,
