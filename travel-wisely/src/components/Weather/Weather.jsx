@@ -28,7 +28,8 @@ function TabPanel(props) {
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
+    /* Not too sure what value is being supplied here */
+    /* value: PropTypes.number.isRequired, */
   };
 
 
@@ -57,29 +58,35 @@ const Weather = () => {
   return (
     <div className={classes.weatherContainer}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
-        <Grid container xs={12} >
-        <Typography className={classes.locationName}>{TEMP_LOCATION_NAME} <span><br/></span>{TEMP_LOCATION_REGION}, {TEMP_LOCATION_COUNTRY}</Typography>
+        <Box>
+        <Typography className={classes.locationName}>{TEMP_LOCATION_NAME} <br/>{TEMP_LOCATION_REGION}, {TEMP_LOCATION_COUNTRY}</Typography>
   <Box sx={{ borderBottom: "2px solid RGBA(120, 120, 0, 0.7)", marginLeft: "25px", display: "flex", alignItems: "end", }}>
-  <Tabs className={classes.tabsStyles} indicatorColor="red" tabNum={tabNum} onChange={handleChange} aria-label="Weather Tab Selection">
+  <Tabs
+    className={classes.tabsStyles}
+    indicatorColor="primary"
+    tabnum={tabNum}
+    onChange={handleChange}
+    aria-label="Weather Tab Selection"
+  >
     <Tab variant="" label="Real Time" {...a11yProps(0)} />
     <Tab label="Today's Forecast" {...a11yProps(1)} />
     <Tab label="Tomorrow's Forecast" {...a11yProps(2)} />
     <Tab label="Day's Forecast" {...a11yProps(2)} />
   </Tabs>
   </Box>
-        </Grid>
+        </Box>
         
 </Box>
-<TabPanel tabNum={tabNum} index={0}>
+<TabPanel tabnum={tabNum} index={0}>
   Item One
 </TabPanel>
-<TabPanel tabNum={tabNum} index={1}>
+<TabPanel tabnum={tabNum} index={1}>
   Item Two
 </TabPanel>
-<TabPanel tabNum={tabNum} index={2}>
+<TabPanel tabnum={tabNum} index={2}>
   Item Three
 </TabPanel>
-<TabPanel tabNum={tabNum} index={3}>
+<TabPanel tabnum={tabNum} index={3}>
   Item Four
 </TabPanel>
 

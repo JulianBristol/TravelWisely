@@ -1,4 +1,3 @@
-//protect API key later through environment variables
 import React, { useState } from "react";
 import GoogleMapReact from "google-map-react";
 import { Button, Paper, Typography, useMediaQuery } from "@material-ui/core";
