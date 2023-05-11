@@ -34,6 +34,7 @@ const App = () => {
   useEffect(() => {
     if (bounds.sw && bounds.ne) {
       setIsLoading(true);
+      console.log('inside the useEffect for the getWeatherData api call',coordinates.lat, coordinates.lng);
 
       getWeatherData(coordinates.lat, coordinates.lng).then((data) =>
         setWeatherData(data)

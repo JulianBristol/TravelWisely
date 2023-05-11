@@ -64,8 +64,8 @@ const Weather = () => {
   <Tabs
     className={classes.tabsStyles}
     indicatorColor="primary"
-    tabnum={tabNum}
     onChange={handleChange}
+    value={tabNum}
     aria-label="Weather Tab Selection"
   >
     <Tab variant="" label="Real Time" {...a11yProps(0)} />
@@ -77,16 +77,16 @@ const Weather = () => {
         </Box>
         
 </Box>
-<TabPanel tabnum={tabNum} index={0}>
+<TabPanel tabNum={tabNum} index={0}>
   Item One
 </TabPanel>
-<TabPanel tabnum={tabNum} index={1}>
+<TabPanel tabNum={tabNum} index={1}>
   Item Two
 </TabPanel>
-<TabPanel tabnum={tabNum} index={2}>
+<TabPanel tabNum={tabNum} index={2}>
   Item Three
 </TabPanel>
-<TabPanel tabnum={tabNum} index={3}>
+<TabPanel tabNum={tabNum} index={3}>
   Item Four
 </TabPanel>
 
