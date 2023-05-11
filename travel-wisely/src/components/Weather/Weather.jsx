@@ -1,7 +1,47 @@
-import { Box, Grid, Tab, Tabs, Typography } from '@material-ui/core';
+import { Box, Grid, Tab, Tabs, Typography, Switch, styled } from '@material-ui/core';
 import React, { useState } from 'react'
 import useStyles from "./styles";
 import PropTypes from 'prop-types';
+
+
+const MaterialUISwitch = styled(Switch)(({ theme }) => ({
+  width: 62,
+  height: 34,
+  padding: 7,
+  '& .MuiSwitch-switchBase': {
+    margin: 1,
+    padding: 0,
+    transform: 'translateX(6px)',
+    '&.Mui-checked': {
+      color: '#fff',
+      transform: 'translateX(22px)',
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
+    width: 32,
+    height: 32,
+    '&:before': {
+      content: "''",
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: 0,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+    },
+  },
+  '& .MuiSwitch-track': {
+    opacity: 1,
+    backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+    borderRadius: 20 / 2,
+  },
+}));
 
 function TabPanel(props) {
     const { children, tabNum, index, ...other } = props;
@@ -43,11 +83,26 @@ function TabPanel(props) {
 
 
 
-const Weather = () => {
+const Weather = ({ weatherData }) => {
     const classes = useStyles();
-    const TEMP_LOCATION_NAME = "Edenwald";
-    const TEMP_LOCATION_REGION = "New York";
-    const TEMP_LOCATION_COUNTRY = "USA";
+    const [tempScale, setTempScale] = useState(true);
+    console.log(tempScale);
+    const { location, forecast, current, alert } = weatherData[0];
+
+    const handleToggleTempScale = (event) => {
+      setTempScale(event.target.checked);
+    };
+
+    // Create a Date object from the input string
+    const newDate = new Date(location.localtime);
+
+    // Format the time component as 12-hour format with AM/PM
+    const time = newDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+    // Format the date component as mm/dd/yyyy
+    const date = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
+    
+
     const [tabNum, setTabNum] = useState(0);
     const handleChange = (event, newTabNum) => {
         setTabNum(newTabNum);
@@ -59,7 +114,21 @@ const Weather = () => {
     <div className={classes.weatherContainer}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
         <Box>
-        <Typography className={classes.locationName}>{TEMP_LOCATION_NAME} <br/>{TEMP_LOCATION_REGION}, {TEMP_LOCATION_COUNTRY}</Typography>
+        <Typography className={classes.locationName}>{location.name} <br/>{location.region}, {location.country}</Typography>
+        <Grid container>
+          <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+            C&deg;
+            <MaterialUISwitch sx={{ m: 1 }} checked={tempScale} onClick={handleToggleTempScale}/>
+            F&deg;
+          </Grid>
+          <Grid item xs={6} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+            Test
+          </Grid>
+          <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <Typography variant='body1'>Time: {time}</Typography>
+            <Typography variant='body1'>Date: {date}</Typography>
+          </Grid>
+        </Grid>
   <Box sx={{ borderBottom: "2px solid RGBA(120, 120, 0, 0.7)", marginLeft: "25px", display: "flex", alignItems: "end", }}>
   <Tabs
     className={classes.tabsStyles}
@@ -71,7 +140,7 @@ const Weather = () => {
     <Tab variant="" label="Real Time" {...a11yProps(0)} />
     <Tab label="Today's Forecast" {...a11yProps(1)} />
     <Tab label="Tomorrow's Forecast" {...a11yProps(2)} />
-    <Tab label="Day's Forecast" {...a11yProps(2)} />
+    <Tab label="Overmorrow's Forecast" {...a11yProps(2)} />
   </Tabs>
   </Box>
         </Box>
@@ -89,36 +158,12 @@ const Weather = () => {
 <TabPanel tabNum={tabNum} index={3}>
   Item Four
 </TabPanel>
-
-
-
-
-      {/* 
-    location": {
-    "name": "Sunnyside",
-    "region": "New York",
-    "country": "United States of America",
-    }
-    "current": {
-    "last_updated_epoch": 1666113300,
-    "last_updated": "2022-10-18 13:15",
-    "temp_c": 11.1,
-    "temp_f": 52,
-    "current": {
-    "last_updated_epoch": 1666113300,
-    "last_updated": "2022-10-18 13:15",
-    "temp_c": 11.1,
-    "temp_f": 52,
-    "humidity": 44,
-    "cloud": 100,
-    "feelslike_c": 9,
-    "feelslike_f": 48.2,
-    "uv": 4,
-    
-    
-    */}
     </div>
   )
 }
+
+Weather.propTypes = {
+  weatherData: PropTypes.array,
+};
 
 export default Weather

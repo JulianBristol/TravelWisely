@@ -1,23 +1,5 @@
 import axios from "axios";
 
-/* const dotenv = require('dotenv');
-dotenv.config();
-
-const fs = require('fs');
-const path = require('path');
-
-const envPath = path.join(__dirname, '../.env');
-const envVars = fs.readFileSync(envPath, 'utf8').split('\n');
-
-envVars.forEach((envVar) => {
-  if (envVar) {
-    const [key, value] = envVar.split('=');
-    process.env[key] = value;
-  }
-});
- */
-
-
 export const getPlacesData = async (type, sw, ne) => {
   try {
     const {
@@ -32,7 +14,7 @@ export const getPlacesData = async (type, sw, ne) => {
           tr_longitude: ne.lng,
         },
         headers: {
-          "X-RapidAPI-Key": "process.env.REACT_APP_RAPIDAPI_API_KEY",
+          "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_KEY,
           "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
         },
       }
@@ -45,7 +27,6 @@ export const getPlacesData = async (type, sw, ne) => {
 };
 
 export const getWeatherData = async (lat, lng) => {
-  console.log(process.env.REACT_APP_RAPIDAPI_API_KEY);
   try {
     const { data } = await axios.get(
       "https://weatherapi-com.p.rapidapi.com/forecast.json",
