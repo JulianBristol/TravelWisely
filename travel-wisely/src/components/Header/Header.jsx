@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import { AppBar, Box, InputBase, Toolbar, Typography } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+import { RxMagnifyingGlass } from "react-icons/rx";
 import useStyles from "./styles";
 
 const Header = ({ setCoordinates }) => {
@@ -33,7 +33,7 @@ const Header = ({ setCoordinates }) => {
           <Autocomplete onLoad={onload} onPlaceChanged={onPlaceChanged}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+              <RxMagnifyingGlass style={{ fontSize: '1.4rem' }}/>
             </div>
             <InputBase
               placeholder="Search..."

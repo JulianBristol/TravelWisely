@@ -1,7 +1,7 @@
 import { Box, Grid, Tab, Tabs, Typography, Switch, styled } from '@material-ui/core';
 import React, { useState } from 'react'
 import useStyles from "./styles";
-import ThermostatIcon from '@mui/icons-material/Thermostat';
+import {FaThermometerThreeQuarters} from "react-icons/fa";
 import PropTypes from 'prop-types';
 import WeatherIcon from './WeatherIcon';
 
@@ -87,7 +87,7 @@ function TabPanel(props) {
 
 const Weather = ({ weatherData }) => {
     const classes = useStyles();
-    const { location, forecast, current, alert } = weatherData[0];
+    const { location, forecast, current, alert } = weatherData;
     const [units, setUnits] = useState(true);
     const dayType = current.condition.icon.includes('night');
     console.log(units);
@@ -136,7 +136,7 @@ const Weather = ({ weatherData }) => {
             <Typography variant='body1'>Date: {date}</Typography>
           </Grid>
         </Grid>
-  <Box sx={{ borderBottom: "2px solid RGBA(120, 120, 0, 0.7)", marginLeft: "25px", display: "flex", alignItems: "end", }}>
+  <Box sx={{ borderBottom: "2px solid RGBA(120, 120, 0, 0.7)", marginLeft: "25px", display: "flex", alignItems: "end" }}>
   <Tabs
     className={classes.tabsStyles}
     indicatorColor="primary"
@@ -153,13 +153,13 @@ const Weather = ({ weatherData }) => {
         </Box>
         
 </Box>
-<TabPanel component='img' tabNum={tabNum} index={0}>
+<TabPanel component='img' tabNum={tabNum} index={0} style={{ padding: '0px 24px' }}>
   <Grid container>
-  <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', background: 'purple' }}>
-    <Grid item xs={7} md={6}style={{ display: 'flex', alignItems: 'center' }}>
+  <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+    <Grid item xs={7}style={{ display: 'flex', alignItems: 'center' }}>
       <WeatherIcon dayType={dayType} weatherType={weatherType} />
     </Grid>
-    <Grid item xs={5} md={5} >
+    <Grid item xs={5} >
       <Typography variant='h3'>{current.condition.text}</Typography>
       <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Humidity: {current.humidity}%</Typography>
     </Grid>
@@ -167,9 +167,9 @@ const Weather = ({ weatherData }) => {
 
 
 
-    <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center', background: 'blue' }}>
+    <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center' }}>
 
-        <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'row', marginLeft: '20px', background: 'pink' }}>
+        <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'row', marginLeft: '20px', marginRight: '0px' }}>
 
           <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'column',  }}>
             <Typography variant='body1' style={{ fontSize: '1.3rem' }}>W.Speed: </Typography>
@@ -185,12 +185,24 @@ const Weather = ({ weatherData }) => {
 
         </Grid>
         
-      <Grid item xs={6}style={{ display: 'flex', alignItems: 'center', background: 'green' }}>
-        <Grid item xs={2} >
-          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Wind Direction: {current.humidity}%</Typography>
+      <Grid item xs={6}style={{ display: 'flex', alignItems: 'center', marginLeft: '30px' }}>
+        <Grid item xs={3} >
+          <Typography variant='body1' style={{ fontSize: '1.4rem', marginLeft: '-30px' }}><FaThermometerThreeQuarters style={{ fontSize: '5.4rem' }}/></Typography>
         </Grid>
-        <Grid item xs={10} >
-          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Wind Direction: {current.humidity}%</Typography>
+        <Grid item xs={9} >
+          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>{
+          units ? 
+          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_f}</span> F{'\u00b0'}</>
+          : 
+          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_f}</span> C{'\u00b0'}</> 
+        }</Typography>
+        <Typography variant='body1'>Feels like {
+          units ? 
+          <><span >{current.feelslike_f}</span> F{'\u00b0'}</>
+          : 
+          <><span >{current.feelslike_c}</span> C{'\u00b0'}</> 
+        }</Typography>
+        
         </Grid>
       </Grid>
     </Grid>
@@ -213,7 +225,7 @@ const Weather = ({ weatherData }) => {
 }
 
 Weather.propTypes = {
-  weatherData: PropTypes.array,
+  weatherData: PropTypes.object,
 };
 
 export default Weather

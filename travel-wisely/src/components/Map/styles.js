@@ -9,7 +9,7 @@ export default makeStyles(() => ({
     justifyContent: "center",
   },
   mapContainer: {
-    height: "65vh",
+    height: "50vh",
     width: "100%",
     position: "relative",
   },

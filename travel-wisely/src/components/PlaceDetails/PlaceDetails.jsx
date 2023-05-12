@@ -10,8 +10,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import PhoneIcon from "@material-ui/icons/Phone";
+import {MdLocationPin} from "react-icons/md";
+import {AiFillPhone} from "react-icons/ai";
 import useStyles from "./styles";
 const PlaceDetails = ({ place, selected, refProp }) => {
   const classes = useStyles();
@@ -75,7 +75,7 @@ const PlaceDetails = ({ place, selected, refProp }) => {
             color="textSecondary"
             className={classes.subtitle}
           >
-            <LocationOnIcon /> {place.address}
+            <MdLocationPin /> {place.address}
           </Typography>
         )}
         {place?.phone && (
@@ -85,7 +85,7 @@ const PlaceDetails = ({ place, selected, refProp }) => {
             color="textSecondary"
             className={classes.spacing}
           >
-            <PhoneIcon /> {place.phone}
+            <AiFillPhone /> {place.phone}
           </Typography>
         )}
         <CardActions>

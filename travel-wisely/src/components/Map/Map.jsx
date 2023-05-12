@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import GoogleMapReact from "google-map-react";
 import { Button, Paper, Typography, useMediaQuery } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
-import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import { MdOutlineLocationOn } from "react-icons/md";
 import useStyles from "./styles";
 import mapStyles from "./mapStyles";
 
@@ -60,7 +60,7 @@ const Map = ({
               key={i}
             >
               {!isDesktop ? (
-                <LocationOnOutlinedIcon color="primary" fontSize="large" />
+                <MdOutlineLocationOn color="primary" fontSize="large" />
               ) : (
                 <Paper elevation={3} className={classes.paper}>
                   <Typography

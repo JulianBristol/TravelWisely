@@ -8,8 +8,8 @@ import Weather from "./components/Weather/Weather";
 
 const App = () => {
   const [places, setPlaces] = useState([]);
-  const [weatherData, setWeatherData] = useState([{
-    "location": {
+  const [weatherData, setWeatherData] = useState({
+    /* "location": {
       "name": "London",
       "region": "City of London, Greater London",
       "country": "United Kingdom",
@@ -950,7 +950,7 @@ const App = () => {
       ]
     },
     "alert": {}
-  }]);
+   */});
   const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [coordinates, setCoordinates] = useState({});
   const [bounds, setBounds] = useState({});
@@ -1013,8 +1013,12 @@ const App = () => {
             places={filteredPlaces.length ? filteredPlaces : places}
             setChildClicked={setChildClicked}
           />
-          <Weather 
-            weatherData={weatherData} />
+          {console.log(weatherData)}
+          {console.log(weatherData === {})}
+          {weatherData !== undefined && Object.keys(weatherData).length !== 0 ?
+          <Weather weatherData={weatherData} />
+          : <></>
+        }
         </Grid>
       </Grid>
     </>
