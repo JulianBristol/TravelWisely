@@ -19,4 +19,13 @@ export default makeStyles(() => ({
       height: "2px"
     },
   },
+  tabStyles: {
+    background: '#8694e6',
+    borderRadius: '12px 12px 0px 0px',
+    opacity: 1,
+    '&.MuiTab-textColorInherit.Mui-selected':{
+      background: '#515a8e',
+      color: '#fff',
+    }
+  }
 }));

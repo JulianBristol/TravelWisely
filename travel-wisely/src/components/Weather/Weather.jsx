@@ -1,7 +1,9 @@
 import { Box, Grid, Tab, Tabs, Typography, Switch, styled } from '@material-ui/core';
 import React, { useState } from 'react'
 import useStyles from "./styles";
+import ThermostatIcon from '@mui/icons-material/Thermostat';
 import PropTypes from 'prop-types';
+import WeatherIcon from './WeatherIcon';
 
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -56,7 +58,7 @@ function TabPanel(props) {
       >
         {tabNum === index && (
           <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
+            <Typography component="div">{children}</Typography>
           </Box>
         )}
       </div>
@@ -85,12 +87,14 @@ function TabPanel(props) {
 
 const Weather = ({ weatherData }) => {
     const classes = useStyles();
-    const [tempScale, setTempScale] = useState(true);
-    console.log(tempScale);
     const { location, forecast, current, alert } = weatherData[0];
+    const [units, setUnits] = useState(true);
+    const dayType = current.condition.icon.includes('night');
+    console.log(units);
+    console.log(weatherData[0]);
 
-    const handleToggleTempScale = (event) => {
-      setTempScale(event.target.checked);
+    const handleToggleUnits = (event) => {
+      setUnits(event.target.checked);
     };
 
     // Create a Date object from the input string
@@ -101,7 +105,11 @@ const Weather = ({ weatherData }) => {
 
     // Format the date component as mm/dd/yyyy
     const date = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
-    
+
+    //Get the weather type
+    const weatherRegex = /\/(\d+)\.png$/;
+    const weatherMatch = current.condition.icon.match(weatherRegex);
+    const weatherType = weatherMatch ? weatherMatch[1] : null;
 
     const [tabNum, setTabNum] = useState(0);
     const handleChange = (event, newTabNum) => {
@@ -114,15 +122,14 @@ const Weather = ({ weatherData }) => {
     <div className={classes.weatherContainer}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
         <Box>
-        <Typography className={classes.locationName}>{location.name} <br/>{location.region}, {location.country}</Typography>
-        <Grid container>
+        <Grid container style={{ marginBottom: '15px' }}>
           <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-            C&deg;
-            <MaterialUISwitch sx={{ m: 1 }} checked={tempScale} onClick={handleToggleTempScale}/>
-            F&deg;
+            Metric
+            <MaterialUISwitch sx={{ m: 1 }} checked={units} onClick={handleToggleUnits}/>
+            Imperial
           </Grid>
           <Grid item xs={6} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-            Test
+          <Typography className={classes.locationName}>{location.name} <br/>{location.region}, {location.country}</Typography>
           </Grid>
           <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
             <Typography variant='body1'>Time: {time}</Typography>
@@ -137,17 +144,60 @@ const Weather = ({ weatherData }) => {
     value={tabNum}
     aria-label="Weather Tab Selection"
   >
-    <Tab variant="" label="Real Time" {...a11yProps(0)} />
-    <Tab label="Today's Forecast" {...a11yProps(1)} />
-    <Tab label="Tomorrow's Forecast" {...a11yProps(2)} />
-    <Tab label="Overmorrow's Forecast" {...a11yProps(2)} />
+    <Tab className={classes.tabStyles} label="Real Time" {...a11yProps(0)} />
+    <Tab className={classes.tabStyles} label="Today's Forecast" {...a11yProps(1)} />
+    <Tab className={classes.tabStyles} label="Tomorrow's Forecast" {...a11yProps(2)} />
+    <Tab className={classes.tabStyles} label="Overmorrow's Forecast" {...a11yProps(2)} />
   </Tabs>
   </Box>
         </Box>
         
 </Box>
-<TabPanel tabNum={tabNum} index={0}>
-  Item One
+<TabPanel component='img' tabNum={tabNum} index={0}>
+  <Grid container>
+  <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', background: 'purple' }}>
+    <Grid item xs={7} md={6}style={{ display: 'flex', alignItems: 'center' }}>
+      <WeatherIcon dayType={dayType} weatherType={weatherType} />
+    </Grid>
+    <Grid item xs={5} md={5} >
+      <Typography variant='h3'>{current.condition.text}</Typography>
+      <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Humidity: {current.humidity}%</Typography>
+    </Grid>
+    </Grid>
+
+
+
+    <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center', background: 'blue' }}>
+
+        <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'row', marginLeft: '20px', background: 'pink' }}>
+
+          <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'column',  }}>
+            <Typography variant='body1' style={{ fontSize: '1.3rem' }}>W.Speed: </Typography>
+            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>W.Direction: </Typography>
+            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>UV: </Typography>
+          </Grid>
+
+          <Grid item xs={6}style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
+            <Typography variant='body1' style={{ fontSize: '1.3rem' }}>{units ? `${current.wind_mph} mph`: `${current.wind_kph} kph` }</Typography>
+            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>{current.wind_dir}</Typography>
+            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>{current.uv}</Typography>
+          </Grid>
+
+        </Grid>
+        
+      <Grid item xs={6}style={{ display: 'flex', alignItems: 'center', background: 'green' }}>
+        <Grid item xs={2} >
+          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Wind Direction: {current.humidity}%</Typography>
+        </Grid>
+        <Grid item xs={10} >
+          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Wind Direction: {current.humidity}%</Typography>
+        </Grid>
+      </Grid>
+    </Grid>
+
+    
+    </Grid>
+    
 </TabPanel>
 <TabPanel tabNum={tabNum} index={1}>
   Item Two
