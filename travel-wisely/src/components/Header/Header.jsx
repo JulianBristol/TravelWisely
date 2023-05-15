@@ -27,16 +27,13 @@ const Header = ({ setCoordinates }) => {
           Travel Wisely
         </Typography>
         <Box display="flex">
-          <Typography variant="h6" className={classes.title}>
-            Explore more places
-          </Typography>
           <Autocomplete onLoad={onload} onPlaceChanged={onPlaceChanged}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <RxMagnifyingGlass style={{ fontSize: '1.4rem' }}/>
             </div>
             <InputBase
-              placeholder="Search..."
+              placeholder="Explore more places..."
               classes={{ root: classes.inputRoot, input: classes.inputInput }}
             />
           </div>

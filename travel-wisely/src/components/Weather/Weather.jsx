@@ -88,6 +88,7 @@ function TabPanel(props) {
   const Weather = ({ weatherData }) => {
       const classes = useStyles();
       const { location, forecast, current, alert } = weatherData;
+      console.log(location, forecast, current, alert);
       const [units, setUnits] = useState(true);
       const dayType = current.condition.icon.includes('night');
 
@@ -122,7 +123,7 @@ function TabPanel(props) {
       <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
         <Box>
         <Grid container style={{ marginBottom: '15px' }}>
-          <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+          <Grid className={classes.unitsContainer} item xs={3}>
             Metric
             <MaterialUISwitch sx={{ m: 1 }} checked={units} onClick={handleToggleUnits}/>
             Imperial
@@ -131,16 +132,17 @@ function TabPanel(props) {
           <Typography className={classes.locationName}>{location.name} <br/>{location.region}, {location.country}</Typography>
           </Grid>
           <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <Typography variant='body1'>Time: {time}</Typography>
+            <Typography variant='body1' style={{ marginBottom: '15px' }}>Time: {time}</Typography>
             <Typography variant='body1'>Date: {date}</Typography>
           </Grid>
         </Grid>
-  <Box sx={{ borderBottom: "2px solid #33333388", marginLeft: "25px", display: "flex", alignItems: "end" }}>
+  <Box className={classes.tabsContainer}>
   <Tabs
     className={classes.tabsStyles}
     indicatorColor="primary"
     onChange={handleChange}
     value={tabNum}
+    variant='scrollable'
     aria-label="Weather Tab Selection"
   >
     <Tab className={classes.tabStyles} label="Real Time" {...a11yProps(0)} />
@@ -154,57 +156,60 @@ function TabPanel(props) {
 </Box>
 <TabPanel component='img' tabNum={tabNum} index={0} style={{ padding: '0px 24px' }}>
   <Grid container>
-  <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-    <Grid item xs={7}style={{ display: 'flex', alignItems: 'center' }}>
+  <Grid className={classes.currentConditions} item xs={12} md={4}>
+    <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
       <WeatherIcon dayType={dayType} weatherType={weatherType} />
     </Grid>
-    <Grid item xs={5} >
-      <Typography variant='h3'>{current.condition.text}</Typography>
-      <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Humidity: {current.humidity}%</Typography>
+    <Grid className={classes.currentConditions_text} item sm={7} md={5}>
+      <Typography className={classes.lgText} variant='h3'>{current.condition.text}</Typography>
+      <Box className={classes.weatherIconContainerB}>
+      <WeatherIcon dayType={dayType} weatherType={weatherType} />
+      </Box>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Humidity: {current.humidity}%</Typography>
     </Grid>
     </Grid>
 
 
 
-    <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center' }}>
+    {/* <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center' }}> */}
 
-        <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'row', marginLeft: '20px', marginRight: '0px' }}>
+        <Grid item xs={6} md={2} className={classes.currentWindUV}>
 
-          <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'column',  }}>
-            <Typography variant='body1' style={{ fontSize: '1.3rem' }}>W.Speed: </Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>W.Direction: </Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>UV: </Typography>
+          <Grid item xs={6} className={classes.currentWindUV_left}>
+            <Typography className={classes.mdText} variant='body1'>W.Speed: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>W.Direction: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>UV: </Typography>
           </Grid>
 
-          <Grid item xs={6}style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
-            <Typography variant='body1' style={{ fontSize: '1.3rem' }}>{units ? `${current.wind_mph} mph`: `${current.wind_kph} kph` }</Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>{current.wind_dir}</Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>{current.uv}</Typography>
+          <Grid item xs={6} style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
+            <Typography className={classes.mdText} variant='body1'>{units ? `${current.wind_mph} mph`: `${current.wind_kph} kph` }</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{current.wind_dir}</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{current.uv}</Typography>
           </Grid>
 
         </Grid>
         
-      <Grid item xs={6}style={{ display: 'flex', alignItems: 'center', marginLeft: '30px' }}>
-        <Grid item xs={3} >
-          <Typography variant='body1' style={{ fontSize: '1.4rem', marginLeft: '-30px' }}><FaThermometerThreeQuarters style={{ fontSize: '5.4rem' }}/></Typography>
+      <Grid item xs={6} md={2} className={classes.currentTemperature}>
+        <Grid item xs={1} sm={3} style={{ minWidth: '50px' }}>
+          <Typography className={classes.weatherDist} variant='body1'><FaThermometerThreeQuarters className={classes.icons}/></Typography>
         </Grid>
-        <Grid item xs={9} >
+        <Grid item xs={11} sm={9} className={classes.currentTempText}>
           <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>{
           units ? 
-          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_f}</span> F{'\u00b0'}</>
+          <><span className={classes.xlText}>{current.temp_f}</span> F{'\u00b0'}</>
           : 
-          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_c}</span> C{'\u00b0'}</> 
+          <><span className={classes.xlText}>{current.temp_c}</span> C{'\u00b0'}</> 
         }</Typography>
-        <Typography variant='body1'>Feels like {
+        <Typography className={classes.smText} variant='body1'>Feels like {
           units ? 
-          <><span >{current.feelslike_f}</span> F{'\u00b0'}</>
+          <><span>{current.feelslike_f}</span> F{'\u00b0'}</>
           : 
-          <><span >{current.feelslike_c}</span> C{'\u00b0'}</> 
+          <><span>{current.feelslike_c}</span> C{'\u00b0'}</> 
         }</Typography>
         
         </Grid>
       </Grid>
-    </Grid>
+    {/* </Grid> */}
 
     
     </Grid>

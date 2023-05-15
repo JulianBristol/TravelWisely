@@ -9,8 +9,10 @@ import PartlyCloudyN from '../../assets/Partly Cloudy(N).png';
 import Rain from '../../assets/Rain.png';
 import Sun from '../../assets/Sun.png';
 import Thunderstorm from '../../assets/Thunderstorm.png';
+import useStyles from "./styles";
 
 const WeatherIcon = ({weatherType, dayType}) => {
+    const classes = useStyles();
     const [weatherIcon, setWeatherIcon] = useState('');
     if (['113'].includes(weatherType) && weatherIcon === '') {
         setWeatherIcon(dayType ? Moon : Sun);
@@ -29,7 +31,7 @@ const WeatherIcon = ({weatherType, dayType}) => {
     }
   return (
     <>
-    <img src={weatherIcon} alt='weather' style={{ height: '200px' }}/>
+    <img className={classes.weatherIcon} src={weatherIcon} alt='weather'/>
     </>
   )
 }
