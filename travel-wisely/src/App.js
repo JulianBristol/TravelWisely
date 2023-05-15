@@ -1013,9 +1013,8 @@ const App = () => {
             places={filteredPlaces.length ? filteredPlaces : places}
             setChildClicked={setChildClicked}
           />
-          {console.log(weatherData)}
-          {console.log(weatherData === {})}
-          {weatherData !== undefined && Object.keys(weatherData).length !== 0 ?
+          {console.log(weatherData?.forecast?.forecastday[2] === undefined)}
+          {weatherData?.forecast?.forecastday?.[2] !== undefined && Object.keys(weatherData.forecast).length !== 0 ?
           <Weather weatherData={weatherData} />
           : <></>
         }

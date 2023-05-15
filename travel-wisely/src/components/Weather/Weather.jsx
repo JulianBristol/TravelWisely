@@ -85,37 +85,36 @@ function TabPanel(props) {
 
 
 
-const Weather = ({ weatherData }) => {
-    const classes = useStyles();
-    const { location, forecast, current, alert } = weatherData;
-    const [units, setUnits] = useState(true);
-    const dayType = current.condition.icon.includes('night');
-    console.log(units);
-    console.log(weatherData[0]);
+  const Weather = ({ weatherData }) => {
+      const classes = useStyles();
+      const { location, forecast, current, alert } = weatherData;
+      const [units, setUnits] = useState(true);
+      const dayType = current.condition.icon.includes('night');
 
-    const handleToggleUnits = (event) => {
-      setUnits(event.target.checked);
-    };
+      const handleToggleUnits = (event) => {
+        setUnits(event.target.checked);
+      };
 
-    // Create a Date object from the input string
-    const newDate = new Date(location.localtime);
+      // Create a Date object from the input string
+      const newDate = new Date(location.localtime);
 
-    // Format the time component as 12-hour format with AM/PM
-    const time = newDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+      // Format the time component as 12-hour format with AM/PM
+      const time = newDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 
-    // Format the date component as mm/dd/yyyy
-    const date = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
+      // Format the date component as mm/dd/yyyy
+      const date = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
 
-    //Get the weather type
-    const weatherRegex = /\/(\d+)\.png$/;
-    const weatherMatch = current.condition.icon.match(weatherRegex);
-    const weatherType = weatherMatch ? weatherMatch[1] : null;
+      //Get the weather type
+      const weatherRegex = /\/(\d+)\.png$/;
+      const weatherMatch = current.condition.icon.match(weatherRegex);
+      const weatherType = weatherMatch ? weatherMatch[1] : null;
 
-    const [tabNum, setTabNum] = useState(0);
-    const handleChange = (event, newTabNum) => {
+      const [tabNum, setTabNum] = useState(0);
+      const handleChange = (event, newTabNum) => {
         setTabNum(newTabNum);
       };
 
+      const overmorrow = new Date(forecast?.forecastday[2]?.date + 'T00:00:00').toLocaleString("en-US", { weekday: "long" });
 
       
   return (
@@ -136,7 +135,7 @@ const Weather = ({ weatherData }) => {
             <Typography variant='body1'>Date: {date}</Typography>
           </Grid>
         </Grid>
-  <Box sx={{ borderBottom: "2px solid RGBA(120, 120, 0, 0.7)", marginLeft: "25px", display: "flex", alignItems: "end" }}>
+  <Box sx={{ borderBottom: "2px solid #33333388", marginLeft: "25px", display: "flex", alignItems: "end" }}>
   <Tabs
     className={classes.tabsStyles}
     indicatorColor="primary"
@@ -145,9 +144,9 @@ const Weather = ({ weatherData }) => {
     aria-label="Weather Tab Selection"
   >
     <Tab className={classes.tabStyles} label="Real Time" {...a11yProps(0)} />
-    <Tab className={classes.tabStyles} label="Today's Forecast" {...a11yProps(1)} />
-    <Tab className={classes.tabStyles} label="Tomorrow's Forecast" {...a11yProps(2)} />
-    <Tab className={classes.tabStyles} label="Overmorrow's Forecast" {...a11yProps(2)} />
+    <Tab className={classes.tabStyles} label="Today" {...a11yProps(1)} />
+    <Tab className={classes.tabStyles} label="Tomorrow" {...a11yProps(2)} />
+    <Tab className={classes.tabStyles} label={overmorrow} {...a11yProps(2)} />
   </Tabs>
   </Box>
         </Box>
@@ -194,7 +193,7 @@ const Weather = ({ weatherData }) => {
           units ? 
           <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_f}</span> F{'\u00b0'}</>
           : 
-          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_f}</span> C{'\u00b0'}</> 
+          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_c}</span> C{'\u00b0'}</> 
         }</Typography>
         <Typography variant='body1'>Feels like {
           units ? 

@@ -15,9 +15,11 @@ export default makeStyles(() => ({
     indicator: {
       display: "block",
       color: "blue",
-      height: "2px"
+      height: "2px",
     },
     background: '#8694e6',
+    border: '2px solid #000',
+    borderBottom: '2px solid transparent',
     borderRadius: '12px 12px 0px 0px',
     opacity: 1,
     '&.MuiTab-textColorInherit.Mui-selected':{

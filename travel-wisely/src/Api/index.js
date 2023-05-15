@@ -36,7 +36,8 @@ export const getWeatherData = async (lat, lng) => {
           days: "3"
         },
         headers: {
-          "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_KEY,
+          /* "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_KEY, */
+          "X-RapidAPI-Key": '9416f14186msh8ebf057a078008ap10a978jsnccf63cec397c',
           "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
         },
       }
