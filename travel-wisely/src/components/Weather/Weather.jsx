@@ -1,10 +1,9 @@
-import { Box, Grid, Tab, Tabs, Typography, Switch, styled } from '@material-ui/core';
+import { Box, Grid, Tab, Tabs, Typography, Switch, styled, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import React, { useState } from 'react'
-import useStyles from "./styles";
+import { useStyles } from "./styles";
 import {FaThermometerThreeQuarters} from "react-icons/fa";
 import PropTypes from 'prop-types';
 import WeatherIcon from './WeatherIcon';
-
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -64,17 +63,11 @@ function TabPanel(props) {
       </div>
     );
   }
-
-
   
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
-    /* Not too sure what value is being supplied here */
-    /* value: PropTypes.number.isRequired, */
   };
-
-
 
   function a11yProps(index) {
     return {
@@ -83,39 +76,87 @@ function TabPanel(props) {
     };
   }
 
+  const TimeSelect = ({ day, test, fn }) => {
+    return (
+      <FormControl style={{ width: '150px', marginBottom: '20px' }}>
+        <InputLabel id={`time-${day}-select-label`}>Select Time: </InputLabel>
+        <Select
+          labelId={`time-${day}-select-label`}
+          id={`time-${day}-select`}
+          value={test}
+          label="Today's Time"
+          onChange={fn}
+        >
+          <MenuItem value={0}>12:00am</MenuItem>
+          <MenuItem value={1}>1:00am</MenuItem>
+          <MenuItem value={2}>2:00am</MenuItem>
+          <MenuItem value={3}>3:00am</MenuItem>
+          <MenuItem value={4}>4:00am</MenuItem>
+          <MenuItem value={5}>5:00am</MenuItem>
+          <MenuItem value={6}>6:00am</MenuItem>
+          <MenuItem value={7}>7:00am</MenuItem>
+          <MenuItem value={8}>8:00am</MenuItem>
+          <MenuItem value={9}>9:00am</MenuItem>
+          <MenuItem value={10}>10:00am</MenuItem>
+          <MenuItem value={11}>11:00am</MenuItem>
+          <MenuItem value={12}>12:00pm</MenuItem>
+          <MenuItem value={13}>1:00pm</MenuItem>
+          <MenuItem value={14}>2:00pm</MenuItem>
+          <MenuItem value={15}>3:00pm</MenuItem>
+          <MenuItem value={16}>4:00pm</MenuItem>
+          <MenuItem value={17}>5:00pm</MenuItem>
+          <MenuItem value={18}>6:00pm</MenuItem>
+          <MenuItem value={19}>7:00pm</MenuItem>
+          <MenuItem value={20}>8:00pm</MenuItem>
+          <MenuItem value={21}>9:00pm</MenuItem>
+          <MenuItem value={22}>10:00pm</MenuItem>
+          <MenuItem value={23}>11:00pm</MenuItem>
+        </Select>
+      </FormControl>
+    )
+  }
 
 
-const Weather = ({ weatherData }) => {
-    const classes = useStyles();
-    const { location, forecast, current, alert } = weatherData;
-    const [units, setUnits] = useState(true);
-    const dayType = current.condition.icon.includes('night');
-    console.log(units);
-    console.log(weatherData[0]);
+  const Weather = ({ weatherData }) => {
+      const classes = useStyles();
+      const { location, forecast, current, alert } = weatherData;
+      const [units, setUnits] = useState(true);
 
-    const handleToggleUnits = (event) => {
-      setUnits(event.target.checked);
-    };
+      const [timeToday, setTimeToday] = useState('8');
+      const [timeTomorrow, setTimeTomorrow] = useState('8');
+      const [timeOvermorrow, setTimeOvermorrow] = useState('8');
 
-    // Create a Date object from the input string
-    const newDate = new Date(location.localtime);
+      const handleToggleUnits = (event) => {
+        setUnits(event.target.checked);
+      };
 
-    // Format the time component as 12-hour format with AM/PM
-    const time = newDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+      const handleTimeTodayChange = (event) => {
+        setTimeToday(event.target.value);
+      };
 
-    // Format the date component as mm/dd/yyyy
-    const date = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
+      const handleTimeTomorrowChange = (event) => {
+        setTimeTomorrow(event.target.value);
+      };
 
-    //Get the weather type
-    const weatherRegex = /\/(\d+)\.png$/;
-    const weatherMatch = current.condition.icon.match(weatherRegex);
-    const weatherType = weatherMatch ? weatherMatch[1] : null;
+      const handleTimeOvermorrowChange = (event) => {
+        setTimeOvermorrow(event.target.value);
+      };
 
-    const [tabNum, setTabNum] = useState(0);
-    const handleChange = (event, newTabNum) => {
+      // Create a Date object from the input string
+      const newDate = new Date(location.localtime);
+
+      // Format the time component as 12-hour format with AM/PM
+      const time = newDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+      // Format the date component as mm/dd/yyyy
+      const date = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
+
+      const [tabNum, setTabNum] = useState(0);
+      const handleChange = (event, newTabNum) => {
         setTabNum(newTabNum);
       };
 
+      const overmorrow = new Date(forecast?.forecastday[2]?.date + 'T00:00:00').toLocaleString("en-US", { weekday: "long" });
 
       
   return (
@@ -123,7 +164,7 @@ const Weather = ({ weatherData }) => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
         <Box>
         <Grid container style={{ marginBottom: '15px' }}>
-          <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+          <Grid className={classes.unitsContainer} item xs={3}>
             Metric
             <MaterialUISwitch sx={{ m: 1 }} checked={units} onClick={handleToggleUnits}/>
             Imperial
@@ -132,93 +173,266 @@ const Weather = ({ weatherData }) => {
           <Typography className={classes.locationName}>{location.name} <br/>{location.region}, {location.country}</Typography>
           </Grid>
           <Grid item xs={3} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <Typography variant='body1'>Time: {time}</Typography>
+            <Typography variant='body1' style={{ marginBottom: '15px' }}>Time: {time}</Typography>
             <Typography variant='body1'>Date: {date}</Typography>
           </Grid>
         </Grid>
-  <Box sx={{ borderBottom: "2px solid RGBA(120, 120, 0, 0.7)", marginLeft: "25px", display: "flex", alignItems: "end" }}>
+  <Box className={classes.tabsContainer}>
   <Tabs
     className={classes.tabsStyles}
     indicatorColor="primary"
     onChange={handleChange}
     value={tabNum}
+    variant='scrollable'
     aria-label="Weather Tab Selection"
   >
     <Tab className={classes.tabStyles} label="Real Time" {...a11yProps(0)} />
-    <Tab className={classes.tabStyles} label="Today's Forecast" {...a11yProps(1)} />
-    <Tab className={classes.tabStyles} label="Tomorrow's Forecast" {...a11yProps(2)} />
-    <Tab className={classes.tabStyles} label="Overmorrow's Forecast" {...a11yProps(2)} />
+    <Tab className={classes.tabStyles} label="Today" {...a11yProps(1)} />
+    <Tab className={classes.tabStyles} label="Tomorrow" {...a11yProps(2)} />
+    <Tab className={classes.tabStyles} label={overmorrow} {...a11yProps(2)} />
   </Tabs>
   </Box>
         </Box>
         
 </Box>
-<TabPanel component='img' tabNum={tabNum} index={0} style={{ padding: '0px 24px' }}>
+<TabPanel component='img' tabNum={tabNum} index={0} style={{ padding: '0px 10px 10px' }}>
   <Grid container>
-  <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-    <Grid item xs={7}style={{ display: 'flex', alignItems: 'center' }}>
-      <WeatherIcon dayType={dayType} weatherType={weatherType} />
+  <Grid className={classes.currentConditions} item xs={12} md={4}>
+    <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
+      <WeatherIcon weatherConditions={current.condition} />
     </Grid>
-    <Grid item xs={5} >
-      <Typography variant='h3'>{current.condition.text}</Typography>
-      <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>Humidity: {current.humidity}%</Typography>
+    <Grid className={classes.currentConditions_text} item sm={7} md={5}>
+      <Typography className={classes.lgText} variant='h3'>{current.condition.text}</Typography>
+      <Box className={classes.weatherIconContainerB}>
+      <WeatherIcon weatherConditions={current.condition} />
+      </Box>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Humidity: {current.humidity}%</Typography>
     </Grid>
     </Grid>
 
+        <Grid item xs={6} md={2} className={classes.currentWindUV}>
 
-
-    <Grid item xs={12} md={8} style={{ display: 'flex', alignItems: 'center' }}>
-
-        <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'row', marginLeft: '20px', marginRight: '0px' }}>
-
-          <Grid item xs={6}style={{ display: 'flex', alignItems: 'end', flexDirection: 'column',  }}>
-            <Typography variant='body1' style={{ fontSize: '1.3rem' }}>W.Speed: </Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>W.Direction: </Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>UV: </Typography>
+          <Grid item xs={6} className={classes.currentWindUV_left}>
+            <Typography className={classes.mdText} variant='body1'>W.Speed: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>W.Direction: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>UV: </Typography>
           </Grid>
 
-          <Grid item xs={6}style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
-            <Typography variant='body1' style={{ fontSize: '1.3rem' }}>{units ? `${current.wind_mph} mph`: `${current.wind_kph} kph` }</Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>{current.wind_dir}</Typography>
-            <Typography variant='body1' style={{ fontSize: '1.3rem', marginTop: '30px' }}>{current.uv}</Typography>
+          <Grid item xs={6} style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
+            <Typography className={classes.mdText} variant='body1'>{units ? `${current.wind_mph} mph`: `${current.wind_kph} kph` }</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{current.wind_dir}</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{current.uv}</Typography>
           </Grid>
 
         </Grid>
         
-      <Grid item xs={6}style={{ display: 'flex', alignItems: 'center', marginLeft: '30px' }}>
-        <Grid item xs={3} >
-          <Typography variant='body1' style={{ fontSize: '1.4rem', marginLeft: '-30px' }}><FaThermometerThreeQuarters style={{ fontSize: '5.4rem' }}/></Typography>
+      <Grid item xs={6} md={2} className={classes.currentTemperature}>
+        <Grid item xs={1} sm={3} style={{ minWidth: '50px' }}>
+          <Typography className={classes.weatherDist} variant='body1'><FaThermometerThreeQuarters className={classes.icons}/></Typography>
         </Grid>
-        <Grid item xs={9} >
+        <Grid item xs={11} sm={9} className={classes.currentTempText}>
           <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>{
           units ? 
-          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_f}</span> F{'\u00b0'}</>
+          <><span className={classes.xlText}>{current.temp_f}</span> F{'\u00b0'}</>
           : 
-          <><span style={{ color: '#222222', fontSize: '3.4rem' }}>{current.temp_f}</span> C{'\u00b0'}</> 
+          <><span className={classes.xlText}>{current.temp_c}</span> C{'\u00b0'}</> 
         }</Typography>
-        <Typography variant='body1'>Feels like {
+        <Typography className={classes.smText} variant='body1'>Feels like {
           units ? 
-          <><span >{current.feelslike_f}</span> F{'\u00b0'}</>
+          <><span>{current.feelslike_f}</span> F{'\u00b0'}</>
           : 
-          <><span >{current.feelslike_c}</span> C{'\u00b0'}</> 
+          <><span>{current.feelslike_c}</span> C{'\u00b0'}</> 
         }</Typography>
         
         </Grid>
       </Grid>
     </Grid>
-
     
+</TabPanel>
+<TabPanel component='img' tabNum={tabNum} index={1} style={{ padding: '0px 10px 10px' }}>
+  <TimeSelect day={'today'} test={timeToday} fn={handleTimeTodayChange}/>
+  <Grid container>
+  <Grid className={classes.currentConditions} item xs={12} md={4}>
+    <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
+      <WeatherIcon weatherConditions={forecast.forecastday[0].hour[timeToday].condition} />
     </Grid>
-    
+    <Grid className={classes.currentConditions_text} item sm={7} md={5}>
+      <Typography className={classes.lgText} variant='h3'>{forecast.forecastday[0].hour[timeToday].condition.text}</Typography>
+      <Box className={classes.weatherIconContainerB}>
+      <WeatherIcon weatherConditions={forecast.forecastday[0].hour[timeToday].condition} />
+      </Box>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Humidity: {forecast.forecastday[0].hour[timeToday].humidity}%</Typography>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Visiblity: {units ? `${forecast.forecastday[0].hour[timeToday].vis_miles} miles`
+          : 
+          `${forecast.forecastday[0].hour[timeToday].vis_km} k` }</Typography>
+    </Grid>
+    </Grid>
+
+        <Grid item xs={6} md={2} className={classes.currentWindUV}>
+
+          <Grid item xs={6} className={classes.currentWindUV_left}>
+            <Typography className={classes.mdText} variant='body1'>W.Speed: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>W.Direction: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>UV: </Typography>
+          </Grid>
+
+          <Grid item xs={6} style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
+            <Typography className={classes.mdText} variant='body1'>{units ? `${forecast.forecastday[0].hour[timeToday].wind_mph} mph`: `${forecast.forecastday[0].hour[timeToday].wind_kph} kph` }</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{forecast.forecastday[0].hour[timeToday].wind_dir}</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{forecast.forecastday[0].hour[timeToday].uv}</Typography>
+          </Grid>
+
+        </Grid>
+        
+      <Grid item xs={6} md={2} className={classes.currentTemperature}>
+        <Grid item xs={1} sm={3} style={{ minWidth: '50px' }}>
+          <Typography className={classes.weatherDist} variant='body1'><FaThermometerThreeQuarters className={classes.icons}/></Typography>
+        </Grid>
+        <Grid item xs={11} sm={9} className={classes.currentTempText}>
+          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>{
+          units ? 
+          <><span className={classes.xlText}>{forecast.forecastday[0].hour[timeToday].temp_f}</span> F{'\u00b0'}</>
+          : 
+          <><span className={classes.xlText}>{forecast.forecastday[0].hour[timeToday].temp_c}</span> C{'\u00b0'}</> 
+        }</Typography>
+        <Typography className={classes.smText} variant='body1'>Feels like {
+          units ? 
+          <><span>{forecast.forecastday[0].hour[timeToday].feelslike_f}</span> F{'\u00b0'}</>
+          : 
+          <><span>{forecast.forecastday[0].hour[timeToday].feelslike_c}</span> C{'\u00b0'}</> 
+        }</Typography>
+        
+      <Typography className={`${classes.smText}`} variant='body1'>Pressure: {units ? `${forecast.forecastday[0].hour[timeToday].pressure_in} psi`
+          : 
+          `${forecast.forecastday[0].hour[timeToday].pressure_mb} mb` }</Typography>
+        </Grid>
+      </Grid>
+    </Grid>
+    </TabPanel>
+
+<TabPanel component='img' tabNum={tabNum} index={2} style={{ padding: '0px 10px 10px' }}>
+  <TimeSelect day={'tomorrow'} test={timeTomorrow} fn={handleTimeTomorrowChange}/>
+
+  <Grid container>
+  <Grid className={classes.currentConditions} item xs={12} md={4}>
+    <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
+      <WeatherIcon weatherConditions={forecast.forecastday[1].hour[timeTomorrow].condition} />
+    </Grid>
+    <Grid className={classes.currentConditions_text} item sm={7} md={5}>
+      <Typography className={classes.lgText} variant='h3'>{forecast.forecastday[1].hour[timeTomorrow].condition.text}</Typography>
+      <Box className={classes.weatherIconContainerB}>
+      <WeatherIcon weatherConditions={forecast.forecastday[1].hour[timeTomorrow].condition} />
+      </Box>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Humidity: {forecast.forecastday[1].hour[timeTomorrow].humidity}%</Typography>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Visiblity: {units ? `${forecast.forecastday[1].hour[timeTomorrow].vis_miles} miles`
+          : 
+          `${forecast.forecastday[1].hour[timeTomorrow].vis_km} k` }</Typography>
+    </Grid>
+    </Grid>
+
+        <Grid item xs={6} md={2} className={classes.currentWindUV}>
+
+          <Grid item xs={6} className={classes.currentWindUV_left}>
+            <Typography className={classes.mdText} variant='body1'>W.Speed: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>W.Direction: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>UV: </Typography>
+          </Grid>
+
+          <Grid item xs={6} style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
+            <Typography className={classes.mdText} variant='body1'>{units ? `${forecast.forecastday[1].hour[timeTomorrow].wind_mph} mph`: `${forecast.forecastday[1].hour[timeTomorrow].wind_kph} kph` }</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{forecast.forecastday[1].hour[timeTomorrow].wind_dir}</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{forecast.forecastday[1].hour[timeTomorrow].uv}</Typography>
+          </Grid>
+
+        </Grid>
+        
+      <Grid item xs={6} md={2} className={classes.currentTemperature}>
+        <Grid item xs={1} sm={3} style={{ minWidth: '50px' }}>
+          <Typography className={classes.weatherDist} variant='body1'><FaThermometerThreeQuarters className={classes.icons}/></Typography>
+        </Grid>
+        <Grid item xs={11} sm={9} className={classes.currentTempText}>
+          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>{
+          units ? 
+          <><span className={classes.xlText}>{forecast.forecastday[1].hour[timeTomorrow].temp_f}</span> F{'\u00b0'}</>
+          : 
+          <><span className={classes.xlText}>{forecast.forecastday[1].hour[timeTomorrow].temp_c}</span> C{'\u00b0'}</> 
+        }</Typography>
+        <Typography className={classes.smText} variant='body1'>Feels like {
+          units ? 
+          <><span>{forecast.forecastday[1].hour[timeTomorrow].feelslike_f}</span> F{'\u00b0'}</>
+          : 
+          <><span>{forecast.forecastday[1].hour[timeTomorrow].feelslike_c}</span> C{'\u00b0'}</> 
+        }</Typography>
+        
+      <Typography className={`${classes.smText}`} variant='body1'>Pressure: {units ? `${forecast.forecastday[1].hour[timeTomorrow].pressure_in} psi`
+          : 
+          `${forecast.forecastday[1].hour[timeTomorrow].pressure_mb} mb` }</Typography>
+        </Grid>
+      </Grid>
+    </Grid>
 </TabPanel>
-<TabPanel tabNum={tabNum} index={1}>
-  Item Two
-</TabPanel>
-<TabPanel tabNum={tabNum} index={2}>
-  Item Three
-</TabPanel>
-<TabPanel tabNum={tabNum} index={3}>
-  Item Four
+
+<TabPanel component='img' tabNum={tabNum} index={3} style={{ padding: '0px 10px 10px' }}>
+  <TimeSelect day={'overmorrow'} test={timeOvermorrow} fn={handleTimeOvermorrowChange}/>
+
+  <Grid container>
+  <Grid className={classes.currentConditions} item xs={12} md={4}>
+    <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
+      <WeatherIcon weatherConditions={forecast.forecastday[2].hour[timeOvermorrow].condition} />
+    </Grid>
+    <Grid className={classes.currentConditions_text} item sm={7} md={5}>
+      <Typography className={classes.lgText} variant='h3'>{forecast.forecastday[2].hour[timeOvermorrow].condition.text}</Typography>
+      <Box className={classes.weatherIconContainerB}>
+      <WeatherIcon weatherConditions={forecast.forecastday[2].hour[timeOvermorrow].condition} />
+      </Box>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Humidity: {forecast.forecastday[2].hour[timeOvermorrow].humidity}%</Typography>
+      <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>Visiblity: {units ? `${forecast.forecastday[2].hour[timeOvermorrow].vis_miles} miles`
+          : 
+          `${forecast.forecastday[2].hour[timeOvermorrow].vis_km} k` }</Typography>
+    </Grid>
+    </Grid>
+
+        <Grid item xs={6} md={2} className={classes.currentWindUV}>
+
+          <Grid item xs={6} className={classes.currentWindUV_left}>
+            <Typography className={classes.mdText} variant='body1'>W.Speed: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>W.Direction: </Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>UV: </Typography>
+          </Grid>
+
+          <Grid item xs={6} style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', marginLeft: '10px' }}>
+            <Typography className={classes.mdText} variant='body1'>{units ? `${forecast.forecastday[2].hour[timeOvermorrow].wind_mph} mph`: `${forecast.forecastday[2].hour[timeOvermorrow].wind_kph} kph` }</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{forecast.forecastday[2].hour[timeOvermorrow].wind_dir}</Typography>
+            <Typography className={`${classes.mdText} ${classes.lowerComponents}`} variant='body1'>{forecast.forecastday[2].hour[timeOvermorrow].uv}</Typography>
+          </Grid>
+
+        </Grid>
+        
+      <Grid item xs={6} md={2} className={classes.currentTemperature}>
+        <Grid item xs={1} sm={3} style={{ minWidth: '50px' }}>
+          <Typography className={classes.weatherDist} variant='body1'><FaThermometerThreeQuarters className={classes.icons}/></Typography>
+        </Grid>
+        <Grid item xs={11} sm={9} className={classes.currentTempText}>
+          <Typography variant='body1' style={{ fontSize: '1.4rem', marginTop: '30px' }}>{
+          units ? 
+          <><span className={classes.xlText}>{forecast.forecastday[2].hour[timeOvermorrow].temp_f}</span> F{'\u00b0'}</>
+          : 
+          <><span className={classes.xlText}>{forecast.forecastday[2].hour[timeOvermorrow].temp_c}</span> C{'\u00b0'}</> 
+        }</Typography>
+        <Typography className={classes.smText} variant='body1'>Feels like {
+          units ? 
+          <><span>{forecast.forecastday[2].hour[timeOvermorrow].feelslike_f}</span> F{'\u00b0'}</>
+          : 
+          <><span>{forecast.forecastday[2].hour[timeOvermorrow].feelslike_c}</span> C{'\u00b0'}</> 
+        }</Typography>
+        
+      <Typography className={`${classes.smText}`} variant='body1'>Pressure: {units ? `${forecast.forecastday[2].hour[timeOvermorrow].pressure_in} psi`
+          : 
+          `${forecast.forecastday[2].hour[timeOvermorrow].pressure_mb} mb` }</Typography>
+        </Grid>
+      </Grid>
+    </Grid>
+
 </TabPanel>
     </div>
   )

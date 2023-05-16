@@ -7,14 +7,14 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  Rating,
   Typography,
-} from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
+} from "@mui/material";
 import {MdLocationPin} from "react-icons/md";
 import {AiFillPhone} from "react-icons/ai";
-import useStyles from "./styles";
+/* import { useStyles } from "./styles"; */
 const PlaceDetails = ({ place, selected, refProp }) => {
-  const classes = useStyles();
+  /* const classes = useStyles(); */
 
   if (selected)
     refProp?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -66,14 +66,14 @@ const PlaceDetails = ({ place, selected, refProp }) => {
           </Box>
         ))}
         {place?.cuisine?.map(({ name }) => (
-          <Chip key={name} size="small" label={name} className={classes.chip} />
+          <Chip key={name} size="small" label={name} /* className={classes.chip} */ />
         ))}
         {place?.address && (
           <Typography
             gutterBottom
             variant="subtitle2"
             color="textSecondary"
-            className={classes.subtitle}
+            /* className={classes.subtitle} */
           >
             <MdLocationPin /> {place.address}
           </Typography>
@@ -83,7 +83,7 @@ const PlaceDetails = ({ place, selected, refProp }) => {
             gutterBottom
             variant="subtitle2"
             color="textSecondary"
-            className={classes.spacing}
+            /* className={classes.spacing} */
           >
             <AiFillPhone /> {place.phone}
           </Typography>

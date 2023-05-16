@@ -2,9 +2,9 @@
 //Change the travel wisely font, color, and mouse cursor
 import React, { useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
-import { AppBar, Box, InputBase, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Box, InputBase, Toolbar, Typography } from "@mui/material/";
 import { RxMagnifyingGlass } from "react-icons/rx";
-import useStyles from "./styles";
+import { useStyles } from "./styles";
 
 const Header = ({ setCoordinates }) => {
   const classes = useStyles();
@@ -27,16 +27,13 @@ const Header = ({ setCoordinates }) => {
           Travel Wisely
         </Typography>
         <Box display="flex">
-          <Typography variant="h6" className={classes.title}>
-            Explore more places
-          </Typography>
           <Autocomplete onLoad={onload} onPlaceChanged={onPlaceChanged}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <RxMagnifyingGlass style={{ fontSize: '1.4rem' }}/>
             </div>
             <InputBase
-              placeholder="Search..."
+              placeholder="Explore more places..."
               classes={{ root: classes.inputRoot, input: classes.inputInput }}
             />
           </div>

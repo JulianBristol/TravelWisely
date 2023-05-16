@@ -1,37 +1,38 @@
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 
-export default makeStyles((theme) => ({
+export const useStyles = makeStyles(() => ({
   title: {
     diplay: "none",
-    [theme.breakpoints.up("sm")]: {
+    '@media (max-width: 650px)': {
       display: "block",
     },
   },
   home: {
     diplay: "none",
-    [theme.breakpoints.up("sm")]: {
+    '@media (max-width: 650px)': {
       display: "block",
     },
     "&:hover": { color: "lightblue", cursor: "pointer" },
   },
   search: {
     position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    borderRadius: '5px',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+      backgroundColor: 'rgba(255, 255, 255, 0.25)',
     },
-    marginRight: theme.spacing(2),
+    marginRight: '60px',
     marginLeft: 0,
     width: "100%",
-    [theme.breakpoints.up("xs")]: {
-      marginLeft: theme.spacing(3),
+    height: "40px",
+    '@media (max-width: 650px)': {
+      marginLeft: '60px',
       width: "auto",
       height: "35px",
     },
   },
   searchIcon: {
-    padding: theme.spacing(0, 2),
+    padding: '0px 15px',
     height: "100%",
     position: "absolute",
     pointerEvents: "none",
@@ -39,13 +40,13 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  inputRoot: { color: "inherit" },
+  inputRoot: { color: "white !important" },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
+    padding: '10px 15px 15px 0px !important',
+    paddingLeft: `calc(1em + 40px) !important`,
+    /* transition: theme.transitions.create("width"), */
     width: "100%",
-    [theme.breakpoints.up("md")]: { width: "20ch" },
+    '@media (max-width: 960px)': { width: "20ch" },
   },
-  toolbar: { display: "flex", justifyContent: "space-between" },
+  toolbar: { display: "flex", justifyContent: "space-between", background: '#3f51b5' },
 }));

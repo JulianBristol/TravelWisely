@@ -10,9 +10,9 @@ import {
   MenuItem,
   Select,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import PlaceDetails from "../PlaceDetails/PlaceDetails";
-import useStyles from "./styles";
+import { useStyles } from "./styles";
 //      --- Imports End ---
 
 const List = ({ places, childClicked, isLoading, type, setType, rating, setRating }) => {
@@ -35,7 +35,7 @@ const List = ({ places, childClicked, isLoading, type, setType, rating, setRatin
       
           <FormControl className={classes.formControl}>
             <InputLabel>Type</InputLabel>
-            <Select value={type} onChange={(e) => setType(e.target.value)}>
+            <Select variant="standard" value={type} onChange={(e) => setType(e.target.value)}>
               <MenuItem value="restaurants">Restaurants</MenuItem>
               <MenuItem value="hotels">Hotels</MenuItem>
               <MenuItem value="attractions">Places</MenuItem>
@@ -43,7 +43,7 @@ const List = ({ places, childClicked, isLoading, type, setType, rating, setRatin
           </FormControl>
           <FormControl className={classes.formControl}>
             <InputLabel>Rating</InputLabel>
-            <Select value={rating} onChange={(e) => setRating(e.target.value)}>
+            <Select variant="standard" value={rating} onChange={(e) => setRating(e.target.value)}>
               <MenuItem value={0}>All Ratings</MenuItem>
               <MenuItem value={3}>Above 3.0</MenuItem>
               <MenuItem value={4}>Above 4.0</MenuItem>

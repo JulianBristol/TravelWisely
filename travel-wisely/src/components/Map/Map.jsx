@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import GoogleMapReact from "google-map-react";
-import { Button, Paper, Typography, useMediaQuery } from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
+import { Button, Paper, Typography, useMediaQuery } from "@mui/material";
+import Rating from '@mui/material/Rating';
 import { MdOutlineLocationOn } from "react-icons/md";
-import useStyles from "./styles";
+import { useStyles } from "./styles";
 import mapStyles from "./mapStyles";
 
 const Map = ({
