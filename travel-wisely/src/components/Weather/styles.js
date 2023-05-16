@@ -66,7 +66,7 @@ export default makeStyles(() => ({
     }
   },
   currentConditions_text: { 
-    marginLeft: '50px',
+    marginLeft: '20px',
     '@media (max-width: 460px)': {
       marginLeft: '10px',
     }
@@ -134,6 +134,7 @@ export default makeStyles(() => ({
   },
   weatherDist: { 
     marginLeft: '-20px',
+    minWidth: '90px',
     '@media (max-width: 960px)': {
       marginLeft: '0px',
     },
@@ -142,9 +143,14 @@ export default makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'end',
-    maxWidth: '120px',
+    minWidth: '140px',
+    '@media (max-width: 959.9px)': {
+      maxWidth: '140px',
+      minWidth: '140px',
+    },
     '@media (max-width: 600px)': {
-      maxWidth: '100px',
+      maxWidth: '130px',
+      minWidth: '0px',
     },
   },
   xlText: {
