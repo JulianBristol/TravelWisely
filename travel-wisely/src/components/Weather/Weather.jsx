@@ -5,7 +5,6 @@ import {FaThermometerThreeQuarters} from "react-icons/fa";
 import PropTypes from 'prop-types';
 import WeatherIcon from './WeatherIcon';
 
-
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -64,17 +63,11 @@ function TabPanel(props) {
       </div>
     );
   }
-
-
   
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
-    /* Not too sure what value is being supplied here */
-    /* value: PropTypes.number.isRequired, */
   };
-
-
 
   function a11yProps(index) {
     return {
@@ -254,15 +247,11 @@ function TabPanel(props) {
         
         </Grid>
       </Grid>
-
-    
     </Grid>
     
 </TabPanel>
 <TabPanel component='img' tabNum={tabNum} index={1} style={{ padding: '0px 10px 10px' }}>
   <TimeSelect day={'today'} test={timeToday} fn={handleTimeTodayChange}/>
-
-
   <Grid container>
   <Grid className={classes.currentConditions} item xs={12} md={4}>
     <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
@@ -320,47 +309,11 @@ function TabPanel(props) {
           `${forecast.forecastday[0].hour[timeToday].pressure_mb} mb` }</Typography>
         </Grid>
       </Grid>
-    {/* </Grid> */}
-
-    
     </Grid>
+    </TabPanel>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</TabPanel>
 <TabPanel component='img' tabNum={tabNum} index={2} style={{ padding: '0px 10px 10px' }}>
   <TimeSelect day={'tomorrow'} test={timeTomorrow} fn={handleTimeTomorrowChange}/>
-
 
   <Grid container>
   <Grid className={classes.currentConditions} item xs={12} md={4}>
@@ -419,16 +372,11 @@ function TabPanel(props) {
           `${forecast.forecastday[1].hour[timeTomorrow].pressure_mb} mb` }</Typography>
         </Grid>
       </Grid>
-    {/* </Grid> */}
-
-    
     </Grid>
-
 </TabPanel>
 
 <TabPanel component='img' tabNum={tabNum} index={3} style={{ padding: '0px 10px 10px' }}>
   <TimeSelect day={'overmorrow'} test={timeOvermorrow} fn={handleTimeOvermorrowChange}/>
-
 
   <Grid container>
   <Grid className={classes.currentConditions} item xs={12} md={4}>
@@ -487,8 +435,6 @@ function TabPanel(props) {
           `${forecast.forecastday[2].hour[timeOvermorrow].pressure_mb} mb` }</Typography>
         </Grid>
       </Grid>
-
-    
     </Grid>
 
 </TabPanel>
