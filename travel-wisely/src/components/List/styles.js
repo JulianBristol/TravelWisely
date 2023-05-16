@@ -1,11 +1,11 @@
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 
-export default makeStyles((theme) => ({
+export const useStyles = makeStyles(() => ({
   formControl: {
-    margin: theme.spacing(1),
+    margin: '10px !important',
   },
   selectEmpty: {
-    marginTop: theme.spacing(2),
+    marginTop: '10px',
   },
   loading: {
     height: "600px",
@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
     alignItems: "center",
   },
   container: {
-    padding: "25px",
+    padding: "5px 15px",
   },
   marginBottom: {
     marginBottom: "30px",
@@ -24,6 +24,6 @@ export default makeStyles((theme) => ({
     height: "70vh",
     overflow: "auto",
     backgroundColor: "#eee",
-    marginTop: "20px",
+    marginTop: "20px !important",
   },
 }));

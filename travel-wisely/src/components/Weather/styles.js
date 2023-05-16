@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 
-export default makeStyles(() => ({
+export const useStyles = makeStyles(() => ({
   unitsContainer: {
     justifyContent: 'center',
     display: 'flex',

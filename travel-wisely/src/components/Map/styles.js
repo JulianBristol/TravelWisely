@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 
-export default makeStyles(() => ({
+export const useStyles = makeStyles(() => ({
   paper: {
     padding: "10px",
     display: "flex",
@@ -29,11 +29,11 @@ export default makeStyles(() => ({
     zIndex: 1,
   },
   mapButton: {
-    backgroundColor: "white",
-    color: "#555555",
+    backgroundColor: "white !important",
+    color: "#555555 !important",
     "&:hover": {
-      color: "#000000",
-      backgroundColor: "#e2e1e0",
+      color: "#000000 !important",
+      backgroundColor: "#e2e1e0 !important",
     },
   },
 }));

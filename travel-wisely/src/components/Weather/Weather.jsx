@@ -1,6 +1,6 @@
-import { Box, Grid, Tab, Tabs, Typography, Switch, styled, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Box, Grid, Tab, Tabs, Typography, Switch, styled, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import React, { useState } from 'react'
-import useStyles from "./styles";
+import { useStyles } from "./styles";
 import {FaThermometerThreeQuarters} from "react-icons/fa";
 import PropTypes from 'prop-types';
 import WeatherIcon from './WeatherIcon';

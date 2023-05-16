@@ -9,7 +9,7 @@ import PartlyCloudyN from '../../assets/Partly Cloudy(N).png';
 import Rain from '../../assets/Rain.png';
 import Sun from '../../assets/Sun.png';
 import Thunderstorm from '../../assets/Thunderstorm.png';
-import useStyles from "./styles";
+import { useStyles } from "./styles";
 
 const WeatherIcon = ({weatherConditions}) => {
     const classes = useStyles();

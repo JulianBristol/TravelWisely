@@ -2,9 +2,9 @@
 //Change the travel wisely font, color, and mouse cursor
 import React, { useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
-import { AppBar, Box, InputBase, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Box, InputBase, Toolbar, Typography } from "@mui/material/";
 import { RxMagnifyingGlass } from "react-icons/rx";
-import useStyles from "./styles";
+import { useStyles } from "./styles";
 
 const Header = ({ setCoordinates }) => {
   const classes = useStyles();
