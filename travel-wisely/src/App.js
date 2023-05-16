@@ -36,7 +36,7 @@ const App = () => {
       setIsLoading(true);
 
       getWeatherData(coordinates.lat, coordinates.lng).then((data) => {
-        data !== undefined ? setWeatherData(data) : console.log('Error: no weather data');
+        data !== undefined ? setWeatherData(data) : setWeatherData(weatherData);
       }
       );
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
@@ -71,7 +71,6 @@ const App = () => {
             places={filteredPlaces.length ? filteredPlaces : places}
             setChildClicked={setChildClicked}
           />
-          {console.log(weatherData?.forecast?.forecastday[2] === undefined)}
           {weatherData?.forecast?.forecastday?.[2] !== undefined && Object.keys(weatherData.forecast).length !== 0 ?
           <Weather weatherData={weatherData} />
           : <></>

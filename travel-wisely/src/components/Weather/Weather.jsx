@@ -120,7 +120,6 @@ function TabPanel(props) {
   const Weather = ({ weatherData }) => {
       const classes = useStyles();
       const { location, forecast, current, alert } = weatherData;
-      console.log(location, forecast, current, alert);
       const [units, setUnits] = useState(true);
 
       const [timeToday, setTimeToday] = useState('8');
@@ -256,7 +255,6 @@ function TabPanel(props) {
   <Grid className={classes.currentConditions} item xs={12} md={4}>
     <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
       <WeatherIcon weatherConditions={forecast.forecastday[0].hour[timeToday].condition} />
-      {console.log(forecast.forecastday[0].hour[timeToday])}
     </Grid>
     <Grid className={classes.currentConditions_text} item sm={7} md={5}>
       <Typography className={classes.lgText} variant='h3'>{forecast.forecastday[0].hour[timeToday].condition.text}</Typography>
@@ -319,7 +317,6 @@ function TabPanel(props) {
   <Grid className={classes.currentConditions} item xs={12} md={4}>
     <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
       <WeatherIcon weatherConditions={forecast.forecastday[1].hour[timeTomorrow].condition} />
-      {console.log(forecast.forecastday[1].hour[timeTomorrow])}
     </Grid>
     <Grid className={classes.currentConditions_text} item sm={7} md={5}>
       <Typography className={classes.lgText} variant='h3'>{forecast.forecastday[1].hour[timeTomorrow].condition.text}</Typography>
@@ -382,7 +379,6 @@ function TabPanel(props) {
   <Grid className={classes.currentConditions} item xs={12} md={4}>
     <Grid item sm={5} md={7} className={classes.weatherIconContainerA}>
       <WeatherIcon weatherConditions={forecast.forecastday[2].hour[timeOvermorrow].condition} />
-      {console.log(forecast.forecastday[2].hour[timeOvermorrow])}
     </Grid>
     <Grid className={classes.currentConditions_text} item sm={7} md={5}>
       <Typography className={classes.lgText} variant='h3'>{forecast.forecastday[2].hour[timeOvermorrow].condition.text}</Typography>
