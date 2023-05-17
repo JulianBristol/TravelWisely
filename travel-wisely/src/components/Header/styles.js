@@ -1,6 +1,9 @@
 import { alpha, makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
+  appBar: {
+    zIndex: '999',
+  },
   title: {
     diplay: "none",
     [theme.breakpoints.up("sm")]: {
@@ -8,7 +11,7 @@ export default makeStyles((theme) => ({
     },
   },
   home: {
-    diplay: "none",
+    display: "none",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },

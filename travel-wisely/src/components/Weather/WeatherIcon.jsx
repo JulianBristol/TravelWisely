@@ -37,7 +37,7 @@ const WeatherIcon = ({weatherConditions}) => {
         setWeatherIcon(Cloud);
     }else if (['143', '248', '260', ].includes(weatherType)) {
         setWeatherIcon(Fog);
-    }else if (['176', '263', '266', '293', '296', '299', '302', '305', '308', '358', '356', '359'].includes(weatherType) && weatherIcon === '') {
+    }else if (['176', '263', '266', '293', '296', '299', '302', '305', '308', '358', '356', '359'].includes(weatherType)) {
         setWeatherIcon(Rain);
     }else if (['200', '386', '389'].includes(weatherType)) {
         setWeatherIcon(Thunderstorm);

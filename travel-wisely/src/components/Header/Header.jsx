@@ -18,7 +18,7 @@ const Header = ({ setCoordinates }) => {
   }
 
   return (
-    <AppBar>
+    <AppBar className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <Typography
           variant="h5"
